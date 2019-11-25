@@ -250,7 +250,7 @@ public class WillWallet
      * @param nonce     nonce
      * @return
      */
-    public String signOfflineTransaction(String toAddress, BigInteger gasPrice, BigInteger gasLimit, BigInteger amount, BigInteger nonce)
+    public String signOfflineTransaction(BigInteger nonce, BigInteger gasPrice, BigInteger gasLimit, String toAddress, BigInteger amount)
     {
         RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, toAddress, amount);
         byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);

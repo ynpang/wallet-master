@@ -37,6 +37,7 @@
 		<mysql-connector.version>8.0.15</mysql-connector.version>
 		<spring-data-commons.version>2.1.5.RELEASE</spring-data-commons.version>
 		<jjwt.version>0.9.0</jjwt.version>
+		<fastjson.version>1.2.7</fastjson.version>
 		<wallet-common.version>1.0-SNAPSHOT</wallet-common.version>
 		<wallet-mbg.version>1.0-SNAPSHOT</wallet-mbg.version>
         <wallet-security.version>1.0-SNAPSHOT</wallet-security.version>
