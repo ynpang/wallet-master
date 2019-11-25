@@ -13,6 +13,7 @@
 		<module>wallet-mbg</module>
 		<module>wallet-security</module>
 		<module>wallet-portal</module>
+		<module>wallet-core</module>
 	</modules>
 
 	<parent>
@@ -41,6 +42,7 @@
 		<wallet-common.version>1.0-SNAPSHOT</wallet-common.version>
 		<wallet-mbg.version>1.0-SNAPSHOT</wallet-mbg.version>
         <wallet-security.version>1.0-SNAPSHOT</wallet-security.version>
+		<wallet-core.version>1.0-SNAPSHOT</wallet-core.version>
 	</properties>
 
 	<dependencies>
@@ -91,6 +93,11 @@
                 <artifactId>wallet-security</artifactId>
                 <version>${wallet-security.version}</version>
             </dependency>
+			<dependency>
+				<groupId>com.enjoy</groupId>
+				<artifactId>wallet-core</artifactId>
+				<version>${wallet-core.version}</version>
+			</dependency>
 			<!--MyBatis分页插件starter-->
 			<dependency>
 				<groupId>com.github.pagehelper</groupId>

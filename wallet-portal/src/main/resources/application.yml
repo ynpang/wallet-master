@@ -37,4 +37,8 @@ redis:
       orderId: "portal:orderId:"
     expire:
       authCode: 90 # 验证码超期时间
+eth:
+  gasLimit: 21000
+erc20:
+  gasLimit: 80000
 

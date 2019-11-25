@@ -4,6 +4,8 @@ import com.enjoy.core.eth.WillContract;
 import com.enjoy.core.eth.WillWallet;
 import com.enjoy.core.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.web3j.utils.Convert;
 
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.util.concurrent.ExecutionException;
 public class EthWithdraw {
 
     public static BigInteger nonce = BigInteger.ZERO;
+    @Value("${eth.gasLimit}")
+    private static int gasLimit;
 
     /**
      * eth提币
@@ -32,15 +36,13 @@ public class EthWithdraw {
         WillContract contract = new WillContract(Web3Config.web3j);
         BigInteger ethGasPrice = contract.refreshGasPrice();
         BigInteger gasPrice = ethGasPrice.multiply(new BigInteger("110")).divide(new BigInteger("100"));
-        BigInteger gasLimit = BigInteger.valueOf(21000);
+        //BigInteger gasLimit = BigInteger.valueOf(gasLimit);
 
         WillWallet wallet = new WillWallet(privateKey);
         BigInteger nonceNet = DecryptWallet.getKeyStoreNonce(keystore);
         nonce = DecryptWallet.sortNonce(nonce, nonceNet);
-
         BigInteger amount = Convert.toWei(String.valueOf(ether), Convert.Unit.ETHER).toBigInteger();
-        String hexValue = wallet.signOfflineTransaction(nonce,gasPrice,gasLimit,to,amount);
-
+        String hexValue = wallet.signOfflineTransaction(nonce,gasPrice, BigInteger.valueOf(gasLimit),to,amount);
         String transactionHash = contract.sendTransaction(hexValue);
         String str="nonce:"+nonce+" gasPrice: "+gasPrice+"   gasLimit:"+gasLimit+"   接受地址："+to+"   总量："+amount+"  Hash:"+transactionHash;
         log.info(str);
