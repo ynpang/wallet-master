@@ -1,33 +1,44 @@
 package com.enjoy.core.web3_eth;
 
+import com.enjoy.core.eth.Erc20CommonContract;
 import com.enjoy.core.eth.WillContract;
-import com.enjoy.core.util.FileUtil;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.http.HttpService;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Erc20Withdraw {
+
+public class Erc20TokenClient {
 
     private static Web3j web3j = Web3j.build(new HttpService(Web3Config.web3j));
 
     /**
-     * 代币提币
-     * @param contractAddress 合约地址
-     * @param toAddress 目标地址
+     * 查询代币精度
+     *
+     * @param contractAddress
+     * @return
+     */
+    public static int getTokenDecimals(String contractAddress) {
+        Erc20CommonContract erc20CommonContract = new Erc20CommonContract(contractAddress,web3j);
+        RemoteCall<BigInteger> result = erc20CommonContract.decimals();
+        return Integer.parseInt(result.toString());
+    }
+
+    /**
+     * 代币转账
+     * @param privateKey       私钥
+     * @param contractAddress  合约地址
+     * @param toAddress         目标地址
      * @param amount
      * @param decimals
      * @return
      * @throws Exception
      */
-    public static String Erc20TokenTransaction(String contractAddress, String toAddress, double amount, int decimals) throws Exception {
-        //获得keysotre文件
-        String keystore = FileUtil.readToString(Web3Config.hotWallet);
-        String privateKey = DecryptWallet.decryptWallet(keystore,"123456" );//  你自己设置的密码
-        //gasPrice 手动设置
+    public static String erc20TokenTransaction(String privateKey, String contractAddress, String toAddress, double amount, int decimals) throws Exception {
         WillContract contract = new WillContract(Web3Config.web3j);
         BigInteger ethGasPrice = contract.refreshGasPrice();
         BigInteger gasPrice = ethGasPrice.multiply(new BigInteger("110")).divide(new BigInteger("100"));
@@ -38,6 +49,6 @@ public class Erc20Withdraw {
         Function function = WillContract.transfer(toAddress,tokenValue);
         Credentials credentials = Credentials.create(privateKey);
         return contract.execute(credentials,function,contractAddress,gasPrice,gasLimit, value);
-
     }
+
 }
