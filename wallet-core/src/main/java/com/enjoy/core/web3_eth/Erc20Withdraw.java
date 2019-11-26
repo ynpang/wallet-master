@@ -1,7 +1,6 @@
 package com.enjoy.core.web3_eth;
 
 import com.enjoy.core.eth.WillContract;
-import com.enjoy.core.util.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.crypto.Credentials;
@@ -28,9 +27,7 @@ public class Erc20Withdraw {
      * @throws Exception
      */
     public  static String Erc20TokenTransaction(String contractAddress, String toAddress, double amount, int decimals) throws Exception {
-        //获得keysotre文件
-        String keystore = FileUtil.readToString(Web3Config.hotWallet);
-        String privateKey = DecryptWallet.decryptWallet(keystore,"123456" );//  你自己设置的密码
+        String privateKey = "3d839b297443eae7a95c340f83a819342934619b70fcfda0468f082b365e606d"; //系统热钱包
         //gasPrice 手动设置
         WillContract contract = new WillContract(Web3Config.web3j);
         BigInteger ethGasPrice = contract.refreshGasPrice();
